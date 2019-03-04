@@ -35,7 +35,7 @@ const MatchCard = ({ data, type, onClick, onClickButton }) => {
     <div
       className={type === 'active' ? `${styles.matchCardLike} ${styles.matchCard}` : styles.matchCard}
       style={{
-        backgroundImage: `url(${data.photos[0].url})`,
+        backgroundImage: `url(${data.photos[0].processedFiles[1].url})`,
       }}
       id={`matchCard_${data._id}`}
     >

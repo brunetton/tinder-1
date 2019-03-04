@@ -28,12 +28,21 @@ class DetailView extends React.Component {
     return false;
   }
 
-  handleClickNext() {
-    const nextIndex = this.imageGallery.getCurrentIndex() + 1;
-    if (this.props.imageData[nextIndex]) {
-      this.imageGallery.slideToIndex(nextIndex);
+  wheel(e) {
+    if (e.deltaY > 0) {
+      const nextIndex = this.imageGallery.getCurrentIndex() + 1;
+      if (this.props.imageData[nextIndex]) {
+        this.imageGallery.slideToIndex(nextIndex);
+      } else {
+        this.imageGallery.slideToIndex(0);
+      }
     } else {
-      this.imageGallery.slideToIndex(0);
+      const prevIndex = this.imageGallery.getCurrentIndex() - 1;
+      if (this.props.imageData[prevIndex]) {
+        this.imageGallery.slideToIndex(prevIndex);
+      } else {
+        this.imageGallery.slideToIndex(this.props.imageData.length-1);
+      }
     }
   }
 
@@ -50,17 +59,21 @@ class DetailView extends React.Component {
         {hasPhotos ?
           <ImageGallery
             ref={i => { this.imageGallery = i; }}
-            defaultImage={this.props.data.photos[0].url}
+            slideDuration={0}
             items={this.props.imageData}
             showThumbnails={false}
             showNav={false}
+            showBullets={true}
             startIndex={0}
-            onClick={(e) => this.handleClickNext(e)}
-            lazyLoad
-            renderItem={(item) => <div key={item.original} style={{ backgroundImage: `url(${item.original})`, height: 400, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }} />}
+            renderItem={(item) =>
+              <div className='image-gallery-image'>
+                <a href={item.original} target='_blank'><img src={item.original} onWheel = {(e) => this.wheel(e)} style={{display:'block', height:'400px', width:'auto', margin:'auto'}}></img></a>
+              </div>
+            }
           /> : null}
         </div>
         <div className={styles.detailViewContainer_content}>
+          <div><Text type="id" style={{ 'font-size': '0.5em', float: 'right' }}>{this.props.data._id}, {this.props.data.content_hash}</Text></div>
           <div className={styles.detailViewContainer_contentName}>
             <Text type="name" style={{ color: 'black' }}>{this.props.data.name}</Text>
             {instagramData ? <a href={`https://instagram.com/${instagramData.username}`} target="_blank" style={{ color: 'black' }} ><Icon type="instagram" style={{ marginTop: 5, marginLeft: 5, float: 'right' }} /></a> : null}

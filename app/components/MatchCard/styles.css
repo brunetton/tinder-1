@@ -13,7 +13,7 @@
 }
 
 .matchCardLike {
-  border: 2px solid #FF6966;
+  border: 8px solid #FF6966;
 }
 
 @keyframes drop {
@@ -105,3 +105,8 @@
   flex-direction: column;
   justify-content: flex-end;
 }
+
+/* .image-gallery-bullet {
+  margin: 2px 2px;
+  padding: 2px;
+} */
